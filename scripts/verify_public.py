@@ -17,7 +17,9 @@ def fetch(url):
 
 def verify(base):
     base = base.rstrip('/') + '/'
-    expected = json.loads((ROOT / 'public/version.json').read_text(encoding='utf-8'))['files']
+    public = ROOT / 'public'
+    expected = {p.relative_to(public).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+                for p in sorted(public.rglob('*')) if p.is_file() and p.name != 'version.json'}
     for attempt in range(12):
         try:
             nonce = str(time.time_ns())
@@ -40,3 +42,4 @@ def verify(base):
 
 if __name__ == '__main__':
     verify(sys.argv[1])
+
