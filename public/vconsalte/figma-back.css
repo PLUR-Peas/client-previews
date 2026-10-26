@@ -1,0 +1,21 @@
+/* Exact back face from Figma 258:9, authored at 360 x 360. */
+.case-card{container-type:inline-size;display:block;position:relative;isolation:isolate;width:100%;height:auto;min-height:0;aspect-ratio:1;padding:0;overflow:hidden;color:#fff;cursor:pointer;background:#927bff;--case-copy-scale:1}
+.case-card::before{display:none}
+.case-card::after{content:"";position:absolute;z-index:-1;left:calc(50% + .5px);top:calc(50% - 20px);width:614px;height:405px;transform:translate(-50%,-50%) rotate(90deg);background:url('assets/figma/card-258/back-grid.svg') center / 614px 405px no-repeat;pointer-events:none}
+.case-card .case-surface{position:absolute;left:6.666667%;top:5.833333%;width:86.666667%;height:87.5%;background:#927bff}
+.case-body{position:absolute;left:3.205128%;top:3.174603%;width:91.987179%}
+.case-card .case-title{width:85.714286%;min-height:0;padding:0;margin:0 0 3.333333cqw;font-size:calc(3.333333cqw * var(--case-copy-scale));line-height:calc(4.166667cqw * var(--case-copy-scale));font-weight:700;letter-spacing:0;text-transform:uppercase;color:#fff;background:none}
+.case-card .case-text{padding:0;font-size:calc(3.333333cqw * var(--case-copy-scale));line-height:calc(4.166667cqw * var(--case-copy-scale));font-weight:400;color:#fff;background:none}
+.case-card .case-text strong{font-weight:700}
+.case-card .case-text p{margin:0 0 2.222222cqw}
+.case-card .case-text p:first-child{width:82.926829%}
+.case-card .case-text p:last-child{width:92.334495%;margin-bottom:0}
+.case-card .case-metric{position:absolute;left:3.205128%;top:74.603175%;width:53.846154%;display:flex;flex-direction:column;gap:2.5cqw;min-height:0;padding:0;margin:0;background:none}
+.case-card .metric-value{font-size:17.893889cqw;line-height:normal;font-weight:500;letter-spacing:0;white-space:nowrap;text-box-trim:trim-both;text-box-edge:cap alphabetic;color:#fff}
+.case-card .metric-caption{font-size:3.333333cqw;line-height:4.166667cqw;font-weight:400;margin:0;max-width:none;color:#fff}
+.case-card .case-metric--wide{width:91.987179%}
+.case-card .case-back{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);padding:0;margin:0;border:0;white-space:nowrap}
+.case-card:focus-within{outline:none}
+
+@media(min-width:1001px){.metric-caption-period{display:block}}
+

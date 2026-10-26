@@ -1,0 +1,10 @@
+.DS_Store
+Thumbs.db
+__pycache__/
+.env
+.env.*
+*.pem
+*.key
+*.pub
+node_modules/
+local-projects.json

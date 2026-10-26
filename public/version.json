@@ -1,0 +1,31 @@
+{
+  "prepared_at": "2026-10-26T13:22:45.752433+00:00",
+  "files": {
+    "index.html": "6fd73390fb96cd892d75e01aec9b2fea24f3e9309a2cf6c217bd0e35a27e6273",
+    "vconsalte/assets/figma/card-258/back-grid.svg": "dce7cf4e70a2ce1954ed038136c90d36dd2bf83c00ca5b27b78a17f9d6c72f15",
+    "vconsalte/assets/figma/card-258/city-284-176.svg": "c8ae84e06eb5b786ff24ccb695c5863cb589ffb844df43d4b127613b2329e0d8",
+    "vconsalte/assets/figma/card-258/city-business.svg": "b455163c1ca441eeeb309d4b9983f136d481ebf9f6519b305d99786ca7727647",
+    "vconsalte/assets/figma/card-258/city.svg": "dea595c728a64ae8dfb73ebbf03f644fcc6ea2e012150986028f8a8f02450647",
+    "vconsalte/assets/figma/card-258/development.svg": "3ed31f554e57bfce41a5e3b4cc033112462171ce5b6698e182ea37e2fb29f594",
+    "vconsalte/assets/figma/card-258/grid.svg": "dce7cf4e70a2ce1954ed038136c90d36dd2bf83c00ca5b27b78a17f9d6c72f15",
+    "vconsalte/assets/figma/card-258/media.svg": "8163213cec884ff17b797948c17defa147372aa5fc8ae69e1513b982db77056e",
+    "vconsalte/assets/figma/grid.svg": "e00dfdcf2e13330fe9b30066e1817d55f2ac766bd2e32d4c37612c4fa4020e43",
+    "vconsalte/assets/fonts/OFL.txt": "071195d8806e226faeee60259c28ca67b458227af5195a73f5cfcab06e3003bc",
+    "vconsalte/assets/fonts/Onest.ttf": "966c5c29b4755da84b6854d5c21dd4eaa2420225d0e9874de602de176d4a9f31",
+    "vconsalte/assets/icons/building.svg": "0f60b58810fbf551d4eb19ca079c918ebf422d6700a1cc07f8bef9b66389ebeb",
+    "vconsalte/assets/icons/bulb.svg": "2f255862a05567338e1cae75ae827b80e45fa0e9cf36b0564f6b36e962cadc53",
+    "vconsalte/assets/icons/chart.svg": "950bc6e1a5ade621d71ddca7c8a9fb6842252de683027a973bbd65aca6d9a594",
+    "vconsalte/assets/icons/cube.svg": "fa28760d3d392cf427e544c5e031fd9b5e64bd80b609a7b4c50ca21a27515cfc",
+    "vconsalte/assets/icons/gear.svg": "939362a7b9adc4b6c705436930c37b38dfacf23c7ee4b6eab08f775b1341aab7",
+    "vconsalte/assets/icons/megaphone.svg": "e7180a1d62cad011aec942b4a1d38f13037097df0da6e027c54e28c5c2e937da",
+    "vconsalte/assets/icons/rook.svg": "289e845daff79e6a717846870e2554b2043f46adcf5562f771ae3da88d5e6d26",
+    "vconsalte/assets/icons/television.svg": "965efaed0fe932e46a963f3cc29b78880c095dba5a41bcafb6470776a0c692d6",
+    "vconsalte/card-motion.css": "e7f3941525244288d401152535fb4d1e4c48b490927d08ac4a287e536f4c9008",
+    "vconsalte/figma-back.css": "79a59274038a054cda12b68cbaab7915f0778043c497b356f4d69735edcc1b08",
+    "vconsalte/figma-card.css": "c9d83f823caee2de980b72b7c68212e82023f05fc1e1439fcba4a2cbc06af529",
+    "vconsalte/index.html": "b4b48b3e4e14e6aa820e9946c4e9df7cc0243c9cc49b160a40de3174580a6c87",
+    "vconsalte/modules.js": "94289f706c9e1e52857ae7160c312b0cbd648455fcd714c74583c1c3c805c35f",
+    "vconsalte/projects.js": "cf011335a77b5d935041124edbbbd2306e084e20688166473a1a0eb6bc3c43fe",
+    "vconsalte/styles.css": "ec81ace2d9f31e32ca4bef977954c40520e62ab937276b53d8c2934deb413f3e"
+  }
+}

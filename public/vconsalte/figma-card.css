@@ -1,0 +1,65 @@
+/* Figma 258:39, 360 x 360. Only the default card face is replaced. */
+:root{--container:1128px}
+.industries{align-items:start}
+.card-slot,.card-slot.is-case,.card-rotor{min-height:0;height:auto}
+.industry-toggle,.project-panel:not(.is-expanded) .project-panel-toggle{
+  container-type:inline-size;position:relative;isolation:isolate;display:block;
+  width:100%;height:auto;min-height:0;aspect-ratio:1;border:0;border-radius:0;
+  margin:0;padding:0;overflow:hidden;background:#927bff;color:#fff;text-align:left;
+  cursor:pointer;box-shadow:none;transition:none;
+}
+.industry-toggle::before,.project-panel:not(.is-expanded)::before{display:none}
+.industry-toggle::after,.project-panel:not(.is-expanded) .project-panel-toggle::after{
+  content:"";position:absolute;z-index:-1;left:calc(50% + .5px);top:calc(50% - 20px);
+  width:614px;height:405px;transform:translate(-50%,-50%) rotate(90deg);
+  background:url('assets/figma/card-258/grid.svg') center / 614px 405px no-repeat;
+  pointer-events:none;
+}
+.industry-toggle .industry-visual,.project-panel:not(.is-expanded) .project-panel-visual{
+  position:absolute;left:6.666667%;top:6.944444%;width:86.666667%;height:64.722222%;
+  min-height:0;padding:0;margin:0;display:grid;place-items:center;background:#927bff;
+}
+.figma-industry-icon{display:block;flex:none;max-width:none}
+.industry-toggle .industry-visual>.icon,.project-panel:not(.is-expanded) .project-panel-visual>.icon{
+  width:151.295px;height:151.41px;max-width:none;max-height:none;margin:0;color:#fff;
+}
+.industry-toggle .industry-visual>.figma-development-icon,.project-panel:not(.is-expanded) .project-panel-visual>.figma-development-icon{
+  transform:translate(-.35244px,.20509px);
+}
+.industry-toggle .industry-visual>.figma-media-icon,.project-panel:not(.is-expanded) .project-panel-visual>.figma-media-icon{transform:translateY(.435px)}
+.industry-toggle .industry-visual>.figma-city-icon,.project-panel:not(.is-expanded) .project-panel-visual>.figma-city-icon{transform:translateY(3px)}
+.industry-toggle .industry-copy,.project-panel:not(.is-expanded) .project-panel-copy{
+  position:absolute;left:6.666667%;top:73.333333%;width:86.944444%;height:20.555556%;
+  margin:0;padding:10px 7px;background:#927bff;display:flex;flex-direction:row;
+  align-items:center;gap:0;min-height:0;
+}
+.industry-copy-text{display:block;width:258px;max-width:100%;font-size:12px;line-height:15px}
+.industry-toggle .industry-name,.project-panel:not(.is-expanded) .industry-name{
+  display:inline;color:#fff;font-size:12px;line-height:15px;letter-spacing:0;font-weight:700;margin:0;
+}
+.industry-toggle .industry-description,.project-panel:not(.is-expanded) .industry-description{
+  display:inline;color:#fff;font-size:12px;line-height:15px;letter-spacing:0;font-weight:500;margin:0;padding:0;
+}
+.industry-toggle .toggle-mark,.project-panel:not(.is-expanded) .project-panel-action{display:none}
+.industry-toggle:hover{box-shadow:none}
+.industry-toggle:focus-visible,.project-panel-toggle:focus-visible{outline:2px solid #111;outline-offset:4px}
+.case-card{min-height:680px}
+.project-accordion{align-items:flex-start}
+.project-panel:not(.is-expanded){padding:0;min-height:0;background:transparent}
+.project-panel:not(.is-expanded) .project-panel-heading{margin:0}
+.project-panel.is-expanded .project-panel-copy .industry-name{font-size:23px;font-weight:700;display:block}
+.project-panel.is-expanded .project-panel-copy .industry-description{font-size:15px;display:block;margin-top:10px}
+.project-panel.is-expanded .project-panel-visual .figma-development-icon{width:151.295px;height:151.41px}
+.project-panel.is-expanded .project-panel-copy{display:block;min-height:0;height:auto}
+.project-panel.is-expanded .industry-copy-text{width:auto;font-size:15px;line-height:1.45}
+@media(min-width:1101px){.project-accordion.has-expanded .project-panel:not(.is-expanded) .project-panel-toggle{aspect-ratio:auto;min-height:360px}.project-accordion.has-expanded .project-panel:not(.is-expanded) .project-panel-visual>.icon{max-width:100%;height:auto}.project-accordion.has-expanded .project-panel:not(.is-expanded) .project-panel-copy{height:auto;min-height:100px;top:auto;bottom:6.111111%}}
+@media(max-width:1100px){.project-panel:not(.is-expanded){width:100%}.project-panel:not(.is-expanded) .project-panel-toggle{max-width:360px;margin:auto}.project-panel:not(.is-expanded){background:#927bff}}
+@media(max-width:1100px){.project-panel.is-expanded .project-panel-toggle{grid-template-columns:170px minmax(0,1fr)}.project-panel:not(.is-expanded){max-width:360px;align-self:center}.project-panel.is-expanded{width:100%}}
+@media(max-width:480px){.project-panel.is-expanded .project-panel-toggle{display:flex;flex-direction:column}.project-panel.is-expanded .project-panel-visual{min-height:170px}.project-panel.is-expanded .project-panel-copy{padding:12px 0}.project-panel.is-expanded .project-panel-action{width:100%}}
+@media(max-width:760px){.industries{justify-items:center}.card-slot{width:100%;max-width:360px}.industry-toggle .industry-copy{padding:10px 7px}}
+@media(max-width:1000px){.industries{grid-template-columns:1fr;justify-items:center}.card-slot{width:100%;max-width:360px}}
+@media(min-width:481px) and (max-width:1100px){.project-panel.is-expanded .project-panel-toggle{grid-template-columns:196px minmax(0,1fr)}}
+
+/* Extended media description uses the full lower panel without changing type size. */
+#toggle-media .industry-copy-text{width:100%}
+#toggle-media .industry-copy{height:auto;min-height:20.555556%;top:71.666667%;bottom:4.444444%;padding-top:4px;padding-bottom:4px}
