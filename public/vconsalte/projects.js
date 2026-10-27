@@ -39,9 +39,10 @@ function typograph(text) {
 
 // Exact default card from Figma 258:39; case content remains independent.
 function industryIcon(industry) {
-  const dimensions = {development:[151.295,151.41],media:[180,145.042],city:[181.667,150]};
+  const dimensions = {development:[151.295,151.295 * 400.29 / 400],media:[180,180 * 400 / 419.72],city:[181.667,181.667 * 400 / 419.981]};
   const [width,height] = dimensions[industry.id];
-  return `<img class="figma-industry-icon figma-${industry.id}-icon" src="assets/figma/card-258/${industry.id === 'city' ? 'city-284-176' : industry.id}.svg" width="${width}" height="${height}" alt="">`;
+  const asset = {development:'development-287-270',media:'media-287-307',city:'city-291-377'}[industry.id] || industry.id;
+  return `<img class="figma-industry-icon figma-${industry.id}-icon" src="assets/figma/card-258/${asset}.svg" width="${width}" height="${height}" alt="">`;
 }
 function industryCopy(industry) {
   const description = industry.id === 'development'
@@ -64,6 +65,8 @@ root.innerHTML = industries.map((industry, index) => `
 const slots = [...root.querySelectorAll('.card-slot')];
 let activeIndustry = null;
 let transitionRevision = 0;
+let mobileTransitionRunning = false;
+let pendingIndustry;
 const flipAnimations = new WeakMap();
 const flipAngles = new WeakMap();
 function caseMarkup(project, index) {
@@ -88,16 +91,63 @@ if ('ResizeObserver' in window) {
   root.querySelectorAll('.case-card').forEach(card => caseObserver.observe(card));
 }
 document.fonts?.ready.then(() => root.querySelectorAll('.case-card').forEach(fitCaseCopy));
-async function flipSlot(slot, project, index) {
+async function flipMobileFaces(front, back, wasOpen, open, startTime) {
+  if (wasOpen === open || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const pairs = open ? [[0,180],[-180,0]] : [[180,360],[0,180]];
+  const animations = [front,back].map((face,index) => {
+    const animation = face.animate(pairs[index].map(angle => ({
+      transform:`perspective(1100px) rotateY(${angle}deg)`
+    })), {duration:640,easing:'cubic-bezier(.4,0,.2,1)',fill:'none'});
+    if (startTime !== null && startTime !== undefined) animation.startTime = startTime;
+    return animation;
+  });
+  try { await Promise.all(animations.map(animation=>animation.finished)); }
+  finally { animations.forEach(animation=>animation.cancel()); }
+}
+async function flipMobileGroup(applyState, startTime) {
+  // Snapshot the visible column before changing its contents. The snapshot
+  // and target column are the two faces of ONE object, with ONE central axis.
+  const front = root.cloneNode(true);
+  front.removeAttribute('id');
+  front.querySelectorAll('[id]').forEach(node=>node.removeAttribute('id'));
+  front.classList.add('mobile-group-face','mobile-group-front');
+  front.setAttribute('aria-hidden','true');
+  front.inert = true;
+  await applyState();
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const back = document.createElement('div');
+  back.className = 'mobile-group-face mobile-group-back';
+  slots.forEach(slot=>back.appendChild(slot));
+  root.append(back,front);
+  root.classList.add('is-group-turning');
+  const animation = root.animate([
+    {transform:'perspective(1100px) rotateY(0deg)'},
+    {transform:'perspective(1100px) rotateY(180deg)'}
+  ],{duration:640,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'});
+  if (startTime !== null && startTime !== undefined) animation.startTime = startTime;
+  try { await animation.finished; }
+  finally {
+    slots.forEach(slot=>root.appendChild(slot));
+    front.remove();
+    back.remove();
+    root.classList.remove('is-group-turning');
+    animation.cancel();
+  }
+}
+async function flipSlot(slot, project, index, startTime, skipAnimation = false) {
   const rotor = slot.querySelector('.card-rotor');
   const front = slot.querySelector('.industry-toggle');
   const back = slot.querySelector('.case-card');
-  // Both faces exist throughout the turn. Only the shared 3D rotor moves.
+  const wasOpen = slot.classList.contains('is-case');
+  // Both faces exist throughout the turn. Desktop uses a per-card rotor;
+  // mobile group transitions prepare the target without individual animations.
   const previousAnimation = flipAnimations.get(rotor);
   const progress = previousAnimation?.animation.effect.getComputedTiming().progress ?? 0;
-  const fromAngle = previousAnimation
+  const currentAngle = previousAnimation
     ? previousAnimation.fromAngle + (previousAnimation.toAngle - previousAnimation.fromAngle) * progress
     : (flipAngles.get(rotor) ?? 0);
+  const mobile = matchMedia('(max-width:1000px)').matches;
+  const fromAngle = currentAngle;
   previousAnimation?.animation.cancel();
   if (project && back.dataset.project !== project.title) {
     back.innerHTML = caseMarkup(project, index);
@@ -112,20 +162,26 @@ async function flipSlot(slot, project, index) {
   back.setAttribute('aria-hidden', String(!open));
   slot.classList.toggle('is-case', open);
   if (project) fitCaseCopy(back);
-  const mobile = matchMedia('(max-width:1000px)').matches;
+  // On mobile the two faces each have their own local perspective. They use
+  // explicit positive half-turns, never a transformed shared parent.
+  if (mobile) {
+    // Preserve the correct face if the viewport switches back to desktop.
+    flipAngles.set(rotor,open ? 180 : 0);
+    rotor.style.transform = `rotateY(${open ? 180 : 0}deg)`;
+    if (!skipAnimation) await flipMobileFaces(front,back,wasOpen,open,startTime);
+    return;
+  }
   const faceAngle = open ? 180 : 0;
-  // Keep unwrapped angles: mobile always turns forward, including on return.
-  const toAngle = mobile
-    ? faceAngle + Math.ceil((fromAngle - faceAngle - .001) / 360) * 360
-    : faceAngle;
+  const toAngle = faceAngle;
   const to = `rotateY(${toAngle}deg)`;
   flipAngles.set(rotor, toAngle);
   rotor.style.transform = to;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (Math.abs(toAngle - fromAngle) < .001 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   rotor.style.willChange = 'transform';
   const animation = rotor.animate([{transform:`rotateY(${fromAngle}deg)`},{transform:to}], {
     duration:640,easing:'cubic-bezier(.4,0,.2,1)',fill:'none'
   });
+  if (startTime !== null && startTime !== undefined) animation.startTime = startTime;
   flipAnimations.set(rotor, {animation, fromAngle, toAngle});
   try { await animation.finished; }
   catch (error) { if (error.name !== 'AbortError') throw error; }
@@ -138,24 +194,43 @@ async function flipSlot(slot, project, index) {
   }
 }
 async function changeIndustry(index) {
+  // Finish the mobile half-turn before applying the latest tap. Reversing or
+  // restarting one card midway must not put it out of phase with the other two.
+  if (mobileTransitionRunning) { pendingIndustry = index; return; }
   if (activeIndustry === index) return;
+  mobileTransitionRunning = matchMedia('(max-width:1000px)').matches;
   const revision = ++transitionRevision;
   root.setAttribute('aria-busy','true');
   const previous = activeIndustry;
   activeIndustry = index;
   root.classList.toggle('is-development', index === 0);
+  const startTime = document.timeline.currentTime;
   try {
-    await Promise.all(slots.map((slot, position) => {
+    const applyState = skipAnimation => Promise.all(slots.map((slot, position) => {
       const project = index === null ? null : index === 0 ? industries[0].cases[position] : position === index ? industries[index].cases[0] : null;
       const alreadyCase = slot.classList.contains('is-case');
       if (!project && !alreadyCase) return;
-      return flipSlot(slot,project,position);
+      return flipSlot(slot,project,position,startTime,skipAnimation);
     }));
+    if (mobileTransitionRunning && (index === 0 || previous === 0)) {
+      await flipMobileGroup(()=>applyState(true),startTime);
+    } else {
+      await applyState(false);
+    }
     if (revision !== transitionRevision) return;
     const focusTarget = index === null ? slots[previous ?? 0].querySelector('.industry-toggle') : slots[index === 0 ? 0 : index].querySelector('.case-back');
     focusTarget?.focus({preventScroll:true});
-    if (focusTarget && focusTarget.getBoundingClientRect().top < 0) focusTarget.scrollIntoView({block:'start',behavior:'instant'});
-  } finally { if (revision === transitionRevision) root.removeAttribute('aria-busy'); }
+  } finally {
+    if (revision === transitionRevision) {
+      root.removeAttribute('aria-busy');
+      mobileTransitionRunning = false;
+      if (pendingIndustry !== undefined) {
+        const next = pendingIndustry;
+        pendingIndustry = undefined;
+        changeIndustry(next);
+      }
+    }
+  }
 }
 root.addEventListener('click', event => {
   const toggle = event.target.closest('.industry-toggle');

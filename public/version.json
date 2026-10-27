@@ -1,13 +1,16 @@
 {
-  "prepared_at": "2026-10-26T13:22:45.752433+00:00",
+  "prepared_at": "2026-10-27T05:34:19.339909+00:00",
   "files": {
     "index.html": "6fd73390fb96cd892d75e01aec9b2fea24f3e9309a2cf6c217bd0e35a27e6273",
     "vconsalte/assets/figma/card-258/back-grid.svg": "dce7cf4e70a2ce1954ed038136c90d36dd2bf83c00ca5b27b78a17f9d6c72f15",
     "vconsalte/assets/figma/card-258/city-284-176.svg": "c8ae84e06eb5b786ff24ccb695c5863cb589ffb844df43d4b127613b2329e0d8",
+    "vconsalte/assets/figma/card-258/city-291-377.svg": "83dd7f7d0664c2b0f74c4a9b6bbfc8a53f729d028ec0b54196d93b20eb1f65ff",
     "vconsalte/assets/figma/card-258/city-business.svg": "b455163c1ca441eeeb309d4b9983f136d481ebf9f6519b305d99786ca7727647",
     "vconsalte/assets/figma/card-258/city.svg": "dea595c728a64ae8dfb73ebbf03f644fcc6ea2e012150986028f8a8f02450647",
+    "vconsalte/assets/figma/card-258/development-287-270.svg": "5737442a80dc3118919014a50321195a11b4598093f4fbc727cac1a72bf9822b",
     "vconsalte/assets/figma/card-258/development.svg": "3ed31f554e57bfce41a5e3b4cc033112462171ce5b6698e182ea37e2fb29f594",
     "vconsalte/assets/figma/card-258/grid.svg": "dce7cf4e70a2ce1954ed038136c90d36dd2bf83c00ca5b27b78a17f9d6c72f15",
+    "vconsalte/assets/figma/card-258/media-287-307.svg": "d977062ac4223d57c0fa66c0d299b6faecf379af9ca8712432fbcb8e0d1a76b7",
     "vconsalte/assets/figma/card-258/media.svg": "8163213cec884ff17b797948c17defa147372aa5fc8ae69e1513b982db77056e",
     "vconsalte/assets/figma/grid.svg": "e00dfdcf2e13330fe9b30066e1817d55f2ac766bd2e32d4c37612c4fa4020e43",
     "vconsalte/assets/fonts/OFL.txt": "071195d8806e226faeee60259c28ca67b458227af5195a73f5cfcab06e3003bc",
@@ -20,12 +23,12 @@
     "vconsalte/assets/icons/megaphone.svg": "e7180a1d62cad011aec942b4a1d38f13037097df0da6e027c54e28c5c2e937da",
     "vconsalte/assets/icons/rook.svg": "289e845daff79e6a717846870e2554b2043f46adcf5562f771ae3da88d5e6d26",
     "vconsalte/assets/icons/television.svg": "965efaed0fe932e46a963f3cc29b78880c095dba5a41bcafb6470776a0c692d6",
-    "vconsalte/card-motion.css": "e7f3941525244288d401152535fb4d1e4c48b490927d08ac4a287e536f4c9008",
+    "vconsalte/card-motion.css": "2e9f58f78e98b20e8b881ee30377b8c20e30ed4bc174df84c85bd32a73706cf9",
     "vconsalte/figma-back.css": "79a59274038a054cda12b68cbaab7915f0778043c497b356f4d69735edcc1b08",
-    "vconsalte/figma-card.css": "c9d83f823caee2de980b72b7c68212e82023f05fc1e1439fcba4a2cbc06af529",
-    "vconsalte/index.html": "b4b48b3e4e14e6aa820e9946c4e9df7cc0243c9cc49b160a40de3174580a6c87",
+    "vconsalte/figma-card.css": "00e9cdf4febb9adf3ebeb8d78378c0287291c10fa88c9df6425bc02b78c30a36",
+    "vconsalte/index.html": "bc5b8bf20feb28e870ff900089dfb934d0692e8582242eb4f964f8a165474afd",
     "vconsalte/modules.js": "94289f706c9e1e52857ae7160c312b0cbd648455fcd714c74583c1c3c805c35f",
-    "vconsalte/projects.js": "cf011335a77b5d935041124edbbbd2306e084e20688166473a1a0eb6bc3c43fe",
+    "vconsalte/projects.js": "c532f2f70b75b0a2285aec55cf7cfacdcb4ff4aeb0e89fd6fa948321309db8f5",
     "vconsalte/styles.css": "ec81ace2d9f31e32ca4bef977954c40520e62ab937276b53d8c2934deb413f3e"
   }
 }

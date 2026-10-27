@@ -24,10 +24,10 @@
   width:151.295px;height:151.41px;max-width:none;max-height:none;margin:0;color:#fff;
 }
 .industry-toggle .industry-visual>.figma-development-icon,.project-panel:not(.is-expanded) .project-panel-visual>.figma-development-icon{
-  transform:translate(-.35244px,.20509px);
+  transform:none;
 }
-.industry-toggle .industry-visual>.figma-media-icon,.project-panel:not(.is-expanded) .project-panel-visual>.figma-media-icon{transform:translateY(.435px)}
-.industry-toggle .industry-visual>.figma-city-icon,.project-panel:not(.is-expanded) .project-panel-visual>.figma-city-icon{transform:translateY(3px)}
+.industry-toggle .industry-visual>.figma-media-icon,.project-panel:not(.is-expanded) .project-panel-visual>.figma-media-icon{transform:none}
+.industry-toggle .industry-visual>.figma-city-icon,.project-panel:not(.is-expanded) .project-panel-visual>.figma-city-icon{transform:none}
 .industry-toggle .industry-copy,.project-panel:not(.is-expanded) .project-panel-copy{
   position:absolute;left:6.666667%;top:73.333333%;width:86.944444%;height:20.555556%;
   margin:0;padding:10px 7px;background:#927bff;display:flex;flex-direction:row;

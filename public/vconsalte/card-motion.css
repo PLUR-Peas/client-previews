@@ -7,3 +7,16 @@
 .card-slot.is-case .industry-toggle{pointer-events:none}
 .card-slot.is-case .case-card{pointer-events:auto}
 @media(max-width:760px){.card-slot{perspective:1100px}}
+/* Explicit face turns on mobile: no parent 3D interpolation or accumulated angles. */
+@media(max-width:1000px){
+  .card-slot{perspective:none}
+  .card-slot .card-rotor{transform:none!important;transform-style:flat}
+  .card-rotor>.industry-toggle{transform:perspective(1100px) rotateY(0deg)}
+  .card-rotor>.case-card{transform:perspective(1100px) rotateY(-180deg)}
+  .card-slot.is-case .card-rotor>.industry-toggle{transform:perspective(1100px) rotateY(180deg)}
+  .card-slot.is-case .card-rotor>.case-card{transform:perspective(1100px) rotateY(0deg)}
+  .industries.is-group-turning{position:relative;transform-style:preserve-3d;transform-origin:50% 50%;isolation:auto}
+  .mobile-group-face{display:grid;grid-template-columns:1fr;justify-items:center;gap:var(--gap);width:100%;min-width:0;transform-style:flat;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform-origin:50% 50%}
+  .mobile-group-front{position:absolute;inset:0;transform:rotateY(0deg);pointer-events:none}
+  .mobile-group-back{transform:rotateY(180deg)}
+}
