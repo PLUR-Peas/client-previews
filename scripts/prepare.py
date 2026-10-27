@@ -3,7 +3,8 @@ from pathlib import Path
 import hashlib
 import json
 import re
-import shutil
+import argparse
+from public_policy import approved_files, export_projects, validate_artifact
 from datetime import datetime, timezone
 from urllib.parse import unquote, urlsplit
 
@@ -39,26 +40,11 @@ def validate(folder):
                 raise ValueError('Missing resource in ' + str(file) + ': ' + ref)
 
 
-def prepare():
-    projects_file = ROOT / 'local-projects.json'
-    projects = json.loads(projects_file.read_text(encoding='utf-8')) if projects_file.exists() else {}
-    # Validate source before touching its previously exported version.
-    for slug, source in projects.items():
-        if not re.fullmatch(r'[a-z0-9][a-z0-9-]*', slug):
-            raise ValueError('Invalid project slug')
-        source = (ROOT / source).resolve()
-        if not (source / 'index.html').is_file():
-            raise ValueError('Source needs index.html: ' + str(source))
-        for file in source.rglob('*'):
-            if file.is_symlink():
-                raise ValueError('Symlink source is not supported')
-        destination = PUBLIC / slug
-        # Only generated output for this explicitly configured slug can be replaced.
-        if destination.resolve().parent != PUBLIC.resolve():
-            raise ValueError('Unsafe export destination')
-        if destination.exists():
-            shutil.rmtree(destination)
-        shutil.copytree(source, destination)
+def prepare(export=False):
+    approved = approved_files(ROOT / 'security' / 'public-files.json')
+    if export:
+        export_projects(ROOT, PUBLIC, approved)
+    validate_artifact(PUBLIC, approved)
     validate(PUBLIC)
     versions = {p.relative_to(PUBLIC).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                 for p in sorted(PUBLIC.rglob('*')) if p.is_file() and p.name != 'version.json'}
@@ -67,4 +53,7 @@ def prepare():
 
 
 if __name__ == '__main__':
-    prepare()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--export', action='store_true',
+                        help='Copy only reviewed files from local-projects.json sources')
+    prepare(export=parser.parse_args().export)

@@ -8,3 +8,5 @@ __pycache__/
 *.pub
 node_modules/
 local-projects.json
+.tools/
+.test-work/

@@ -1,38 +1,70 @@
 name: Publish client previews
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
-    paths:
-      - public/**
-      - scripts/**
-      - .github/workflows/pages.yml
   workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Full 40-character main commit SHA approved for public release
+        required: true
+        type: string
+      confirmation:
+        description: Type PUBLISH to confirm public release of this commit
+        required: true
+        type: string
 
 permissions:
   contents: read
 
 concurrency:
-  group: github-pages
+  group: pages-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
-      - name: Validate static files
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check explicit release approval
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          APPROVED_SHA: ${{ inputs.commit_sha }}
+          RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
+        run: python3 scripts/check_release.py
+      - name: Test publication safety boundaries
+        run: python3 -m unittest discover -s tests -v
+      - name: Install verified secret scanner
+        run: python3 scripts/install_gitleaks.py
+      - name: Scan full Git history for secrets
+        run: '"$RUNNER_TEMP/plur-gitleaks/gitleaks" git --redact=100 --no-banner --exit-code=1 --log-opts="--all" .'
+      - name: Validate reviewed public file list
         run: python3 scripts/prepare.py
+      - name: Scan final artifact for secrets
+        run: '"$RUNNER_TEMP/plur-gitleaks/gitleaks" dir --redact=100 --no-banner --exit-code=1 public'
       - name: Check JavaScript syntax
         run: |
           find public -type f -name '*.js' -print0 | xargs -0 -r -n 1 node --check
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
         with:
           path: public
+          retention-days: 1
 
   deploy:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     needs: validate
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: github-pages-production
+      cancel-in-progress: false
     permissions:
       contents: read
       pages: write
@@ -41,10 +73,12 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/configure-pages@v5
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
       - name: Check published files
         env:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
